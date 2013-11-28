@@ -7,48 +7,18 @@ def init(symb):
     request = urllib2.urlopen(replaced)
     result = request.read()
     d = json.loads(result)
-    return d
+    quote = d["query"]["results"]["quote"]
+    asdf = {}
+    asdf['ask'] = quote['Ask']
+    asdf['dHigh'] = quote['DaysHigh']
+    asdf['dLow'] = quote['DaysLow']
+    asdf['pChange'] = quote['ChangeInPercent']
+    asdf['name'] = quote['Name']
+    asdf['change'] = quote['Change']
+    asdf['yLow'] = quote['YearLow']
+    asdf['yHigh'] = quote['YearHigh']
+    asdf['open'] = quote['Open']
+    asdf['close'] = quote['PreviousClose']
+    asdf['target'] = quote['OneyrTargetPrice']
+    return asdf
 
-def getAsk(symb):
-    d = init(symb)
-    return d["query"]["results"]["quote"]["Ask"]
-
-def getDailyHigh(symb):
-    d = init(symb)
-    return d["query"]["results"]["quote"]["DaysHigh"]
-
-def getDailyLow(symb):
-    d = init(symb)
-    return d["query"]["results"]["quote"]["DaysLow"]
-
-def getPercentChange(symb):
-    d = init(symb)
-    return d["query"]["results"]["quote"]["ChangeinPercent"]
-
-def getName(symb):
-    d = init(symb)
-    return d["query"]["results"]["quote"]["Name"]
-
-def getChange(symb):
-    d = init(symb)
-    return d["query"]["results"]["quote"]["Change"]
-
-def getYearLow(symb):
-    d = init(symb)
-    return d["query"]["results"]["quote"]["YearLow"]
-
-def getYearHigh(symb):
-    d = init(symb)
-    return d["query"]["results"]["quote"]["YearHigh"]
-
-def getOpen(symb):
-    d = init(symb)
-    return d["query"]["results"]["quote"]["Open"]
-
-def getPrevClose(symb):
-    d = init(symb)
-    return d["query"]["results"]["quote"]["PreviousClose"]
-
-def getOneYearTargetPrice(symb):
-    d = init(symb)
-    return d["query"]["results"]["quote"]["OneyrTargetPrice"]
