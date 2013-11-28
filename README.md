@@ -5,7 +5,7 @@ proj2-pd6-02-JJJT
 ###Stock Market Game
 
 
-Group Leader: ?
+Group Leader: Timothy
 
 
 Front End: Jae
