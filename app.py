@@ -1,5 +1,5 @@
 from flask import Flask, render_template, url_for, redirect, request, session
-import utils
+import auth
 
 app = Flask(__name__)
 app.secret_key = 'secretkey'
@@ -15,7 +15,7 @@ def login():
     else:
         username = request.form["username"].encode("ascii","ignore")
         password = request.form["password"].encode("ascii","ignore")
-        if (utils.authenticate(username,password)):
+        if (auth.authenticate(username,password)):
             session["username"] = username
             return redirect(url_for("portfolio"))
         else:
