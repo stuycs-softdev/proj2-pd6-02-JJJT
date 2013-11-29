@@ -36,14 +36,18 @@ def register():
 
 @app.route("/portfolio")
 def portfolio():
-    if logged_in():
-        
+    if auth.logged_in():
+        return render_template("portfolio.html")
+    else:
+        return redirect(url_for("login"))
 
 @app.route("/search", methods=["GET", "POST"])
 def search():
-
-@app.route("/stocks")
-def stocks():
+    if request.method == "GET":
+        return render_template("search.html")
+    else:
+        search = request.form["search"]
+        return auth.search(search) 
 
 @app.route("/logout")
 def logout():
