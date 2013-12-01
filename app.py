@@ -75,7 +75,7 @@ def search():
     else:
         symb = request.form['symb']
         q = utils.init(symb)
-        if 'username' in sesssion:
+        if 'username' in session:
             return render_template("stocks.html",username = session["username"], q=q)
         else:
             return render_template("stocks.html", q=q)

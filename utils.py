@@ -12,7 +12,7 @@ def init(symb):
     asdf['ask'] = quote['Ask']
     asdf['dHigh'] = quote['DaysHigh']
     asdf['dLow'] = quote['DaysLow']
-    asdf['pChange'] = quote['ChangeInPercent']
+    #asdf['pChange'] = quote['ChangeInPercent']
     asdf['name'] = quote['Name']
     asdf['change'] = quote['Change']
     asdf['yLow'] = quote['YearLow']
