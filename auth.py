@@ -28,11 +28,11 @@ def checkUser(username):
     return True
 
 def getStocks(username):
-    stuff = [x for x in db.users.find({'username':username}, fields = {'_id':False})]
+    stuff = db.users.find_one({'username':username}, fields = {'_id':False,'stocks':True})
     return stuff['stocks']
 
 def getCash(username):
-    stuff = [x for x in db.users.find({'username':username}, fields = {'_id':False})]
+    stuff = db.users.find_one({'username':username}, fields = {'_id':False,'cash':True})
     return stuff['cash']
 
 def updateStocks(username, stocks):
