@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, redirect, request, session
-import utils, auth
+import utils
+import auth
 
 app = Flask(__name__)
 app.secret_key = 'secretkey'
@@ -27,21 +28,20 @@ def login():
         else:
             return redirect(url_for("login"))
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == "GET":
-        if 'username' in session:
-            return render_template("redirect.html",username = session["username"])
-        else:
-            return render_template("redirect.html")
+        return render_template("register.html")
     else:
-        username = request.form["username"].encode("ascii","ignore")
-        password = request.form["password"].encode("ascii","ignore")
-        if (auth.register(username,password)):
-            session["username"] = username
-            return render_template('portfolio.html', username=session['username'])
-        else:
-            return redirect(url_for("register")) #return specific error?
+        button = request.form["button"]
+        if button == "submit":
+            username = request.form["username"]
+            password = request.form["password"]
+            if auth.register(username,password):
+                session['username'] = username
+                return redirect('/login')
+            else:
+                return render_template("register.html") #return specific error?
 
 @app.route("/portfolio")
 def portfolio():
