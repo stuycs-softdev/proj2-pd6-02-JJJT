@@ -18,17 +18,15 @@ def register(username, password):
 
 def login(username, password):
     db = init()
-    user = [x for x in db.users.find({'username':username, 'password':password}, fields = {'_id':False})]
-    if (len(user) == 0):
-        user = user[0]
-        if username == user['username'] and password == user['password']:
-            return True
-        else:
-            return False
+    user = db.users.find_one({'username':username, 'password':password}, fields = {'_id':False})
+    if username == user['username'] and password == user['password']:
+        return True
+    else:
+        return False
 
 def checkUser(username):
     db = init()
-0    user = [x for x in db.users.find({'username':username}, fields = {'_id':False})]
+    user = [x for x in db.users.find({'username':username}, fields = {'_id':False})]
     if (len(user) == 0):
         return False
     return True
@@ -58,7 +56,7 @@ def buy(username, symb, num):
     amount = utils.getAsk(symb) * num
     stocks = getStocks(username)
     cash = getCash(username)
-    if (cash >= amount)):
+    if (cash >= amount):
         if (stocks[symb] > 0):
             stocks[symb] = stocks[symb] + num
             cash = cash - amount
