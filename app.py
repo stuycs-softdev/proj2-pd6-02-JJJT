@@ -47,7 +47,7 @@ def portfolio():
     else:
         return render_template("portfolio.html")
     
-@app.route("/buynsell")
+@app.route("/buynsell", methods=['GET', 'POST'])
 def buynsell():
     if request.method == "GET":
         if 'username' in session:

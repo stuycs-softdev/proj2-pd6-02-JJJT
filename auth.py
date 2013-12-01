@@ -44,7 +44,7 @@ def updateCash(username, cash):
     return True
 
 def buy(username, symb, num):
-    amount = utils.getAsk(symb) * num
+    amount = utils.getClose(symb) * num
     stocks = getStocks(username)
     cash = getCash(username)
     if (cash >= amount):
@@ -64,7 +64,7 @@ def buy(username, symb, num):
         return False
 
 def sell(username, symb, num):
-    amount = utils.getAsk(symb) * num
+    amount = utils.getClose(symb) * num
     stocks = getStocks(username)
     cash = getCash(username)
     if (stocks[symb] >= num):
