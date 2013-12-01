@@ -6,6 +6,7 @@ app = Flask(__name__)
 app.secret_key = 'secretkey'
 
 @app.route("/")
+@app.route("/home")
 def home():
     if 'username' in session:
         return render_template('home.html', username=session['username'])
