@@ -5,11 +5,10 @@ import utils
 client = MongoClient()
 db = client.asdf
 
-
 def register(username, password):
-    check = db.users.find_one({'username':username})
-    if (check == None):
-        db.users.insert({'username':username, 'password':password, 'cash':100000, 'stocks':{}})
+    users = [username for username in db.users.find({'username':username}, fields={'_id':False,'user':True})]
+    if len(users) == 0:
+        db.users.insert({'username':username, 'password':password, 'cash':100000,'stocks':{}})
         return True
     else:
         return False

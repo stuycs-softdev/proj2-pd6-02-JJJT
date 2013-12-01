@@ -15,16 +15,13 @@ def home():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method=="GET":
-        if 'username' in session:
-            return render_template("login.html",username = session["username"])
-        else:
-            return render_template("login.html")
+        return render_template("login.html")
     else:
-        username = request.form["username"].encode("ascii","ignore")
-        password = request.form["password"].encode("ascii","ignore")
+        username = request.form["username"]
+        password = request.form["password"]
         if (auth.login(username,password)):
             session["username"] = username
-            return render_template('portfolio.html', username=session['username'])
+            return render_template('home.html', username=session['username'])
         else:
             return redirect(url_for("login"))
 
@@ -33,15 +30,13 @@ def register():
     if request.method == "GET":
         return render_template("register.html")
     else:
-        button = request.form["button"]
-        if button == "submit":
-            username = request.form["username"]
-            password = request.form["password"]
-            if auth.register(username,password):
-                session['username'] = username
-                return redirect('/login')
-            else:
-                return render_template("register.html") #return specific error?
+        username = request.form["username"]
+        password = request.form["password"]
+        if auth.register(username,password):
+            session['username'] = username
+            return redirect(url_for('home'))
+        else:
+            return render_template("register.html") #return specific error?
 
 @app.route("/portfolio")
 def portfolio():
