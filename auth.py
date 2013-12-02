@@ -1,0 +1,77 @@
+from flask import Flask, url_for, request, redirect, render_template
+from pymongo import MongoClient
+import utils
+
+client = MongoClient()
+db = client.asdf
+
+def register(username, password):
+    users = [username for username in db.users.find({'username':username}, fields={'_id':False,'user':True})]
+    if len(users) == 0:
+        db.users.insert({'username':username, 'password':password, 'cash':100000,'stocks':{}})
+        return True
+    else:
+        return False
+
+def login(username, password):
+    user = [x for x in db.users.find({'username':username, 'password':password}, fields = {'_id':False})]
+    user = user[0]
+    if username == user['username'] and password == user['password']:
+        return True
+    else:
+        return False
+
+def checkUser(username):
+    user = [x for x in db.users.find({'username':username}, fields = {'_id':False})]
+    if (len(user) == 0):
+        return False
+    return True
+
+def getStocks(username):
+    stuff = db.users.find_one({'username':username}, fields = {'_id':False,'stocks':True})
+    return stuff['stocks']
+
+def getCash(username):
+    stuff = db.users.find_one({'username':username}, fields = {'_id':False,'cash':True})
+    return stuff['cash']
+
+def updateStocks(username, stocks):
+    db.users.update({'username':username}, {'stocks':stocks})
+    return True
+
+def updateCash(username, cash):
+    db.users.update({'username':username}, {'cash':cash})
+    return True
+
+def buy(username, symb, num):
+    amount = utils.getClose(symb) * num
+    stocks = getStocks(username)
+    cash = getCash(username)
+    if (cash >= amount):
+        if (stocks[symb] > 0):
+            stocks[symb] = stocks[symb] + num
+            cash = cash - amount
+            updateStocks(username, stocks)
+            updateCash(username, cash)
+            return True
+        else:
+            stocks[symb] = num
+            cash = cash - amount
+            updateStocks(username, stocks)
+            updateCash(username, cash)
+            return True
+    else:
+        return False
+
+def sell(username, symb, num):
+    amount = utils.getClose(symb) * num
+    stocks = getStocks(username)
+    cash = getCash(username)
+    if (stocks[symb] >= num):
+        stocks[symb] = 0
+        cash = cash + amount
+        updateStocks(username, stocks)
+        updateCash(username, cash)
+        return True
+    else:
+        return False
