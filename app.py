@@ -1,10 +1,12 @@
 from flask import Flask, render_template, url_for, redirect, request, session
-import utils, auth
+import utils
+import auth
 
 app = Flask(__name__)
 app.secret_key = 'secretkey'
 
 @app.route("/")
+@app.route("/home")
 def home():
     if 'username' in session:
         return render_template('home.html', username=session['username'])
@@ -14,34 +16,28 @@ def home():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method=="GET":
-        if 'username' in session:
-            return render_template("login.html",username = session["username"])
-        else:
-            return render_template("login.html")
+        return render_template("login.html")
     else:
-        username = request.form["username"].encode("ascii","ignore")
-        password = request.form["password"].encode("ascii","ignore")
+        username = request.form["username"]
+        password = request.form["password"]
         if (auth.login(username,password)):
             session["username"] = username
-            return render_template('portfolio.html', username=session['username'])
+            return render_template('home.html', username=session['username'])
         else:
             return redirect(url_for("login"))
 
-@app.route("/register", methods=["GET", "POST"])
+@app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == "GET":
-        if 'username' in session:
-            return render_template("redirect.html",username = session["username"])
-        else:
-            return render_template("redirect.html")
+        return render_template("register.html")
     else:
-        username = request.form["username"].encode("ascii","ignore")
-        password = request.form["password"].encode("ascii","ignore")
-        if (auth.register(username,password)):
-            session["username"] = username
-            return render_template('portfolio.html', username=session['username'])
+        username = request.form["username"]
+        password = request.form["password"]
+        if auth.register(username,password):
+            session['username'] = username
+            return redirect(url_for('home'))
         else:
-            return redirect(url_for("register")) #return specific error?
+            return render_template("register.html") #return specific error?
 
 @app.route("/portfolio")
 def portfolio():
@@ -51,7 +47,7 @@ def portfolio():
     else:
         return render_template("portfolio.html")
     
-@app.route("/buynsell")
+@app.route("/buynsell", methods=['GET', 'POST'])
 def buynsell():
     if request.method == "GET":
         if 'username' in session:
@@ -80,7 +76,7 @@ def search():
     else:
         symb = request.form['symb']
         q = utils.init(symb)
-        if 'username' in sesssion:
+        if 'username' in session:
             return render_template("stocks.html",username = session["username"], q=q)
         else:
             return render_template("stocks.html", q=q)
