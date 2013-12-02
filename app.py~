@@ -45,7 +45,7 @@ def portfolio():
         user = session['username']
         return render_template("portfolio.html",username = user,cash=auth.getCash(user), stocks = auth.getStocks(user))
     else:
-        return redirect("/register")
+        return render_template("portfolio.html")
     
 @app.route("/buynsell", methods=['GET', 'POST'])
 def buynsell():
@@ -61,10 +61,10 @@ def buynsell():
         user = session['username']
         if action == 'buy':
             auth.buy(session['username'], symb, num)
-            return redirect("/portfolio")
+            return render_template('portfolio.html', username = user, cash=auth.getCash(user), stocks = auth.getStocks(user))
         else:
             auth.sell(session['username'], symb, num)
-            return redirect("/portfolio")
+            return render_template('portfolio.html', username = user, cash=auth.getCash(user), stocks = auth.getStocks(user))
 
 @app.route("/search", methods=["GET", "POST"])
 def search():

@@ -89,12 +89,14 @@
           <tr>
             <td></td>
             <td></td>
-            <td>{{ x }}</td>
+            <td>x</td>
             <td>{{ stocks[x] }}</td>
           </tr>
 	  {% endfor %}
         </tbody>
       </table>
+
+      <h3>Total Value:</h3>
       
       <hr>
 
