@@ -6,14 +6,14 @@ app = Flask(__name__)
 app.secret_key = 'secretkey'
 
 @app.route("/")
-@app.route("/home")
+@app.route("/home.html")
 def home():
     if 'username' in session:
         return render_template('home.html', username=session['username'])
     else:
         return render_template('home.html')
 
-@app.route("/login", methods=["GET", "POST"])
+@app.route("/login.html", methods=["GET", "POST"])
 def login():
     if request.method=="GET":
         return render_template("login.html")
@@ -26,7 +26,7 @@ def login():
         else:
             return redirect(url_for("login"))
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/register.html", methods=['GET', 'POST'])
 def register():
     if request.method == "GET":
         return render_template("register.html")
@@ -47,7 +47,7 @@ def portfolio():
     else:
         return render_template("portfolio.html")
     
-@app.route("/buynsell", methods=['GET', 'POST'])
+@app.route("/buynsell.html", methods=['GET', 'POST'])
 def buynsell():
     if request.method == "GET":
         if 'username' in session:
@@ -66,7 +66,7 @@ def buynsell():
             auth.sell(session['username'], symb, num)
             return render_template('portfolio.html', username = user, cash=auth.getCash(user), stocks = auth.getStocks(user))
 
-@app.route("/search", methods=["GET", "POST"])
+@app.route("/search.html", methods=["GET", "POST"])
 def search():
     if request.method == "GET":
         if 'username' in session:
@@ -81,7 +81,7 @@ def search():
         else:
             return render_template("stocks.html", q=q)
 
-@app.route("/logout")
+@app.route("/logout.html")
 def logout():
     session.pop("username", None)
     return redirect(url_for("home"))
