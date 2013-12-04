@@ -6,14 +6,14 @@ app = Flask(__name__)
 app.secret_key = 'secretkey'
 
 @app.route("/")
-@app.route("/home.html")
+@app.route("/home")
 def home():
     if 'username' in session:
         return render_template('home.html', username=session['username'])
     else:
         return render_template('home.html')
 
-@app.route("/login.html", methods=["GET", "POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method=="GET":
         return render_template("login.html")
@@ -26,7 +26,7 @@ def login():
         else:
             return redirect(url_for("login"))
 
-@app.route("/register.html", methods=['GET', 'POST'])
+@app.route("/register", methods=['GET', 'POST'])
 def register():
     if request.method == "GET":
         return render_template("register.html")
@@ -45,9 +45,9 @@ def portfolio():
         user = session['username']
         return render_template("portfolio.html",username = user,cash=auth.getCash(user), stocks = auth.getStocks(user))
     else:
-        return redirect("/register")
+        return render_template("portfolio.html")
     
-@app.route("/buynsell.html", methods=['GET', 'POST'])
+@app.route("/buynsell", methods=['GET', 'POST'])
 def buynsell():
     if request.method == "GET":
         if 'username' in session:
@@ -61,12 +61,12 @@ def buynsell():
         user = session['username']
         if action == 'buy':
             auth.buy(session['username'], symb, num)
-            return redirect("/portfolio")
+            return render_template('portfolio.html', username = user, cash=auth.getCash(user), stocks = auth.getStocks(user))
         else:
             auth.sell(session['username'], symb, num)
-            return redirect("/portfolio")
+            return render_template('portfolio.html', username = user, cash=auth.getCash(user), stocks = auth.getStocks(user))
 
-@app.route("/search.html", methods=["GET", "POST"])
+@app.route("/search", methods=["GET", "POST"])
 def search():
     if request.method == "GET":
         if 'username' in session:
@@ -81,7 +81,7 @@ def search():
         else:
             return render_template("stocks.html", q=q)
 
-@app.route("/logout.html")
+@app.route("/logout")
 def logout():
     session.pop("username", None)
     return redirect(url_for("home"))
