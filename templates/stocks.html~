@@ -89,14 +89,35 @@
 
         <tbody>
 
-	  {% for x in q %}
-
           <tr>
-            <td>{{x}}</td>
-            <td>{{ q[x] }}</td>
+            <td>Ask</td>
+            <td>{{ q['ask'] }}</td>
           </tr>
 
-	  {% endfor %}
+	  <tr>
+            <td>Change</td>
+            <td>{{ q['change'] }}</td>
+          </tr>
+
+	  <tr>
+            <td>Previous Close</td>
+            <td>{{ q['close'] }}</td>
+          </tr>
+
+	  <tr>
+            <td>Open</td>
+            <td>{{ q['open'] }}</td>
+          </tr>
+	  
+          <tr>
+            <td>Day's Low/High</td>
+            <td>{{ q['dLow'] }} - {{ q['dHigh'] }}<td>
+          </tr>
+	  
+          <tr>
+            <td>Year's Low/High</td>
+            <td>{{ q['yLow'] }} - {{ q['yHigh'] }}</td>
+          </tr>
 	  
         </tbody>
       </table>
