@@ -44,24 +44,26 @@ def updateCash(username, cash):
     return True
 
 def buy(username, symb, num):
-    amount = utils.getClose(symb) * num
+    #asdf = utils.init(symb)
+    #each = asdf['PreviousClose'].encode("ascii","ignore")
+    #amount = each * num
     stocks = getStocks(username)
-    cash = getCash(username)
-    if (cash >= amount):
-        if (stocks[symb] > 0):
-            stocks[symb] = stocks[symb] + num
-            cash = cash - amount
-            updateStocks(username, stocks)
-            updateCash(username, cash)
-            return True
-        else:
-            stocks[symb] = num
-            cash = cash - amount
-            updateStocks(username, stocks)
-            updateCash(username, cash)
-            return True
+    #cash = getCash(username)
+    #if (cash >= amount):
+    if (stocks[symb] > 0):
+        stocks[symb] = stocks[symb] + int(num)
+    #        cash = cash - amount
+        updateStocks(username, stocks)
+    #        updateCash(username, cash)
+        return True
     else:
-        return False
+        stocks[symb] = num
+    #        cash = cash - amount
+        updateStocks(username, stocks)
+    #        updateCash(username, cash)
+        return True
+    #else:
+    #    return False
 
 def sell(username, symb, num):
     amount = utils.getClose(symb) * num
